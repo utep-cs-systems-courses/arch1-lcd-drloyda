@@ -25,19 +25,19 @@ all: buzzer.elf led.elf wakedemo.elf
 
 
 #additional rules for files
-wakedemo.elf: ${COMMON_OBJECTS} wakedemo.o ../../wakedemo/wdt_handler.o
+wakedemo.elf: ${COMMON_OBJECTS}buzzer.o led.o wakedemo.o ../../wakedemo/wdt_handler.o
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
 
-#buzzer.elf: greenBeat-c.o buzzer.o main.o ../lib/libTimer.a
+#buzzer.elf: buzzer.o ../lib/libTimer.a
 #	${CC} ${CFLAGS} -o $@ $^
 
-led.elf: greenBeat-c.o buzzer.o main.o ../lib/libTimer.a
+led.elf: led.o greenBeat-c.o ../lib/libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 led2.elf: greenBeat-s.o buzzer.o main.o ../lib/libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
-load:  wakedemo.elf
+load: wakedemo.elf 
 	msp430loader.sh  $^
 
 load2: buzzer.elf led2.elf
@@ -46,6 +46,10 @@ load2: buzzer.elf led2.elf
 clean: $^
 
 	rm -f *.o *.elf
+
+led.o: led.h
+
+buzzer.o : buzzer.h
 
 greenBeat-c.o: led.h
 

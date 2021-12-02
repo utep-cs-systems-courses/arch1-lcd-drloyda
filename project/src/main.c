@@ -30,7 +30,7 @@ int main() {
   enableWDTInterrupts();
   
   or_sr(0x8);          // CPU off
-  clearScreen(COLOR_RED);
+  clearScreen(COLOR_GREEN);
 }
 int sw1Down = 0;
 int sw2Down = 0;
@@ -79,7 +79,7 @@ __interrupt_vec(PORT2_VECTOR) Port_2(){
 }
 
 //global variables of songs and timing
-int secondCount = 0;
+/*int secondCount = 0;
 int i = 0;
 int j = 0;
 int k = -1;
@@ -96,14 +96,14 @@ int notes2[26] = {5115, 0, 5115, 0, 5115, 0, 5115, 0, 5115, 4819, 5730, 0, 5730,
 		  0, 5730, 0, 5730, 0 ,5730, 0 , 5730, 5115, 4291, 5115};
 int notes3[37] = {1517, 1607, 1517, 1607, 1517, 2025, 1703, 1910, 2273, 3822, 3034, 2273,
 		  2025, 3034, 2408, 2025, 1910, 3034, 1517, 1607, 1517, 1607, 1517, 1607,
-		  2025, 1703, 1910, 2273, 3822, 3034, 2273, 2025, 3034, 1910, 2025, 2273};
+      		  2025, 1703, 1910, 2273, 3822, 3034, 2273, 2025, 3034, 1910, 2025, 2273};
 int time[26] = {62, 31, 62, 31, 62, 31, 62, 31, 62, 31, 31, 62, 31, 125, 31, 62, 31, 62,
 		31, 31, 31, 62, 31, 31, 31, 125};
 int time2[37] = {0,46, 46, 46, 46, 46, 46, 46, 46, 92, 46, 46, 46, 92, 46, 46, 46, 92, 46,
-		 46, 46, 46, 46, 46, 46, 46, 46 ,46 ,92, 46, 46, 46, 92, 46, 46, 46, 92};
+  46, 46, 46, 46, 46, 46, 46, 46 ,46 ,92, 46, 46, 46, 92, 46, 46, 46, 92};*/
 void
 __interrupt_vec(WDT_VECTOR) WDT(){
-  secondCount++;
+  // secondCount++;
   if(sw1Down == 1){ //if sw1 pressed
     playSongOne();
   }else if(sw2Down == 1 ){ //if sw2 pressed
@@ -119,7 +119,7 @@ __interrupt_vec(WDT_VECTOR) WDT(){
 
 //plays the buzzer based on notes in notes array
 //at every second
-void playSongOne(){
+/*void playSongOne(){
   if(secondCount >= 46){
     secondCount = 0;
     if(i >= 64){
@@ -157,6 +157,7 @@ void playSongThree(){
     k++;
   }
 }
+*/
 int blink_count = 0;
 int main_state = 0;
 int int_state = 1;
