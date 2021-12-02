@@ -60,10 +60,9 @@ void drawChar5x7(u_char col, u_char row, char c,
  */
 void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height, u_int colorBGR);
 
-void draw_hexagon(u_char cc, u_char cr);
-void drawHeart(u_char cc, u_char cr);
-void drawTest();
-
+void drawFistBump(u_char cc, u_char cr);
+void drawTriforce(u_char cc, u_char cr);
+void drawPiano(u_char cc, u_char cr);
 #endif // included
 
 

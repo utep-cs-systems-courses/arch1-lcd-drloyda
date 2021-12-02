@@ -116,18 +116,20 @@ void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
   fillRectangle(colMin + width, rowMin, 1, height, colorBGR);
 }
 
-void draw_hexagon(u_char cc, u_char cr){
-  for(int r = 0; r <= 10; r++){
-    int col_range = (15-r > 10)? 10: 15-r;
+void drawFistBump(u_char cc, u_char cr){
+  clearScreen(COLOR_RED);
+  for(int r = 0; r <= 30; r++){
+    int col_range = (45-r > 30)? 45: 45-r;
     for(int c = 0; c < col_range; c++){
-      drawPixel(cc-c,cr-r, COLOR_RED);
-      drawPixel(cc+c,cr-r, COLOR_RED);
-      drawPixel(cc-c,cr+r, COLOR_RED);
-      drawPixel(cc+c,cr+r, COLOR_RED);
+      drawPixel(cc-c,cr-r, COLOR_BLACK);
+      drawPixel(cc+c,cr-r, COLOR_WHITE);
+      drawPixel(cc-c,cr+r, COLOR_BLACK);
+      drawPixel(cc+c,cr+r, COLOR_WHITE);
     }
   }
 }
-void drawHeart(u_char cc, u_char cr){
+void drawTriforce(u_char cc, u_char cr){
+  clearScreen(COLOR_DARK_GREEN);
   for(int row = 0; row <= 30; row++){
     int col1= row;
     int col2 = -row;
@@ -139,5 +141,18 @@ void drawHeart(u_char cc, u_char cr){
     }
   }
 }
-void drawTest(){
+void drawPiano(u_char cc, u_char cr){
+  clearScreen(COLOR_PURPLE);
+  int swap = 0;
+  for(int row = 40; row < 80; row++){
+    for(int col = 40; col < 80; col++){
+      if(swap == 4){
+	drawPixel(row, col, COLOR_BLACK);
+	swap = 0;
+      }
+      drawPixel(row, col, COLOR_WHITE);
+    }
+    swap++;
+  }
 }
+  

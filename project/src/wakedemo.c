@@ -13,7 +13,7 @@
 #define SW2 BIT1
 #define SW3 BIT2
 #define SW4 BIT3
-#define SWITCHES (SW1 | SW2 | SW3 | SW4)
+#define SWITCHES 15
 
 static char 
 switch_update_interrupt_sense()
@@ -53,13 +53,9 @@ switch_interrupt_handler()
   if((p2val & SWITCHES) == 14){ //toggle sw1 on or off
     turnOff();
     sw1Down ^= 1;
-    // clearScreen(COLOR_DARK_GREEN);
-    //drawHeart(65,40);
   }else if((p2val & SWITCHES) == 13){ //toggle sw2 on or off
     turnOff();
     sw2Down ^= 1;
-    //clearScreen(COLOR_RED);
-    //drawHexagon(65,40);
   }else if((p2val & SWITCHES) == 11){
     turnOff();
     sw3Down ^= 1;
@@ -69,7 +65,7 @@ switch_interrupt_handler()
   }
 }
 
-int playOne = 0;
+int playSong = 0;
 int playTwo = 0;
 int playThree = 0;
 void turnOff(){
@@ -77,9 +73,7 @@ void turnOff(){
   sw2Down &= ~sw2Down;
   sw3Down &= ~sw3Down;
   sw4Down &= ~sw4Down;
-  playOne &= ~playOne;
-  playTwo &= ~playTwo;
-  playThree &= ~playThree;
+  playSong &= ~playSong;
 }
 
 // axis zero for col, axis 1 for row
@@ -89,26 +83,33 @@ short velocity[2] = {3,8}, limits[2] = {screenWidth-36, screenHeight-8};
 short redrawScreen = 1;
 u_int controlFontColor = COLOR_GREEN;
 int secCount = 0;
-int ps1 = 0;
-void wdt_c_handler()
+/*void wdt_c_handler()
 {
-  //static int secCount = 0;
-
-  secCount ++;
-  if(playOne){
+  secCount++;
+  switch(playSong){
+  case 1:
     playSongOne();
-  }else if(playTwo){
+    break;
+  case 2:
     playSongTwo();
-  }else if(playThree){
+    break;
+  case 3:
+    playSongThree();
+    break;
+  default: buzzer_set_period(0);
+  }
+  /*
+  if(playSong == 1){
+    playSongOne();
+  }else if(playSong == 2){
+    playSongTwo();
+  }else if(playSong == 3){
     playSongThree();
   }else{
     buzzer_set_period(0);
   }
-  //if (secCount >= 250) {		/* 10/sec */
-    // secCount = 0;
-    // redrawScreen = 1;
-    //}
-}
+  */
+//}
 void update_shape();
 
 
@@ -116,42 +117,39 @@ void main()
 {
   
   led_init();		/**< Green led on when CPU on */
-  // buzzer_init();
   configureClocks();
   lcd_init();
   switch_init();
-  //buzzer_init(); 
+  //buzzer_init();
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
   buzzer_init();
   clearScreen(COLOR_BLACK);
-  // buzzer_set_period(5000);
-  // playSongOne(secCount);
-  // clearScreen(COLOR_DARK_GREEN);
+  drawString5x7(15,60,"Press Any Button", COLOR_WHITE, COLOR_BLACK);
+  drawString5x7(40, 70, "To Start", COLOR_WHITE, COLOR_BLACK);
   
   while (1) {
     if(sw1Down == 1){ //if sw1 pressed
       turnOff();
-      playOne = 1;
+      playSong = 1;
       drawTriforce(65,40);
-    }else if(sw2Down == 1 ){ //if sw2 pressed
+    }else if(sw2Down == 1){ //if sw2 pressed
       turnOff();
-      playTwo = 1;
+      playSong = 2;
       drawFistBump(65,70);
-    }else if(sw3Down == 1){
+    }else if(sw3Down == 1){ //if sw3 pressed
       turnOff();
-      playThree = 1;
+      playSong = 3;
       drawPiano(65,40);
-    }else if(sw4Down ==1){
+    }else if(sw4Down == 1){ //if sw4 pressed
       clearScreen(COLOR_BLUE);
       turnOff();
+      drawString5x7(10,70,"ERROR 404: PAGE NOT FOUND", COLOR_WHITE, COLOR_BLUE);
     }
-    // turnOff();
+    
    } 
 }
 
-    
-    
 void
 update_shape()
 {
@@ -165,7 +163,6 @@ update_shape()
     drawTriforce(65, 40);
     step++;
   } else {
-    clearScreen(COLOR_BLACK);
     step = 0;
   }
 }

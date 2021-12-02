@@ -28,7 +28,7 @@ void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k resu
   CCR0 = cycles;
   CCR1 = cycles >> 1;/* one half cycle */
 }
-extern secCount;
+extern int secCount;
 int secondCount = 0;
 int i = 0;
 int j = 0;
@@ -47,7 +47,7 @@ int notes3[37] = {1517, 1607, 1517, 1607, 1517, 2025, 1703, 1910, 2273, 3822, 30
 		  2025, 1703, 1910, 2273, 3822, 3034, 2273, 2025, 3034, 1910, 2025, 227};
 
 int time[26] = {62, 31, 62, 31, 62, 31, 62, 31, 62, 31, 31, 62, 31, 125, 31, 62, 31, 62,
-		31, 31, 31, 62, 31, 31, 31, 125};
+		31, 31, 31, 62, 31, 31, 31, 62};
 
 int time2[37] = {0,46, 46, 46, 46, 46, 46, 46, 46, 92, 46, 46, 46, 92, 46, 46, 46, 92, 46,
 		 46, 46, 46, 46, 46, 46, 46, 46 ,46 ,92, 46, 46, 46, 92, 46, 46, 46, 92};
@@ -59,7 +59,7 @@ void playSongOne(){
     if(i >= 64){
       i = 0;
     }
-    toggle();
+    //toggle();
     buzzer_set_period(notes[i]);
     i++;
   }
@@ -71,9 +71,9 @@ void playSongTwo(){
   if(secCount >= time[j]){
     secCount = 0;
     if(j >= 26){
-      j = -1;
+      j = 0;
     }
-    greenBeat(secCount);
+    //greenBeat(secCount);
     buzzer_set_period(notes2[j]);
     j++;
   }
@@ -85,7 +85,7 @@ void playSongThree(){
     if(k >= 37){
       k = -1;
     }
-    greenBeat(secCount);
+    //greenBeat(secCount);
     buzzer_set_period(notes3[k]);
     k++;
   }
