@@ -1,6 +1,5 @@
 #include <msp430.h>
 #include <libTimer.h>
-#include <math.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "led.h"
@@ -64,7 +63,7 @@ switch_interrupt_handler()
     sw4Down ^= 1;
   }
 }
-
+int redraw = 1;
 int playSong = 0;
 void turnOff(){
   sw1Down &= ~sw1Down;
@@ -72,15 +71,17 @@ void turnOff(){
   sw3Down &= ~sw3Down;
   sw4Down &= ~sw4Down;
   playSong &= ~playSong;
+  redraw = 0;
 }
 
 // axis zero for col, axis 1 for row
 short drawPos[2] = {10,10}, controlPos[2] = {10,10};
 short velocity[2] = {3,8}, limits[2] = {screenWidth-36, screenHeight-8};
-
 short redrawScreen = 1;
 u_int controlFontColor = COLOR_GREEN;
 int secCount = 0;
+int drawCount = 0;
+
 void update_shape();
 
 
@@ -95,6 +96,7 @@ void main()
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
   buzzer_init();
+  
   clearScreen(COLOR_BLACK);
   drawString5x7(15,60,"Press Any Button", COLOR_WHITE, COLOR_BLACK);
   drawString5x7(40, 70, "To Start", COLOR_WHITE, COLOR_BLACK);
@@ -111,7 +113,7 @@ void main()
     }else if(sw3Down == 1){ //if sw3 pressed
       turnOff();
       playSong = 3;
-      drawPiano(65,40);
+      drawPiano();
     }else if(sw4Down == 1){ //if sw4 pressed
       buzzer_set_period(0);
       clearScreen(COLOR_BLUE);
@@ -119,24 +121,9 @@ void main()
       drawString5x7(10,70,"ERROR 404: PAGE NOT FOUND", COLOR_WHITE, COLOR_BLUE);
     }
     
-   } 
-}
-
-void
-update_shape()
-{
-  static unsigned char row = screenHeight / 2, col = screenWidth / 2;
-  static int colStep = 5, rowStep = 5;
-  static char blue = 31, green = 0, red = 31;
-  static unsigned char step = 0;
-    if (step <= 1) {
-    row = row + step;
-    clearScreen(COLOR_DARK_GREEN);
-    drawTriforce(65, 40);
-    step++;
-  } else {
-    step = 0;
-  }
+   }
+  
+ 
 }
 
 

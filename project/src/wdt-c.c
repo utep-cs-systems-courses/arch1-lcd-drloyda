@@ -1,5 +1,7 @@
+#include "buzzer.h"
 extern int secCount;
 extern int playSong;
+extern int redraw;
 void wdt_c_handler(){
   secCount++;
   switch(playSong){

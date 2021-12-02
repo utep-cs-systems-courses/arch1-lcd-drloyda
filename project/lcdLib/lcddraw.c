@@ -141,18 +141,19 @@ void drawTriforce(u_char cc, u_char cr){
     }
   }
 }
-void drawPiano(u_char cc, u_char cr){
+void drawPiano(){
   clearScreen(COLOR_PURPLE);
   int swap = 0;
-  for(int row = 40; row < 80; row++){
-    for(int col = 40; col < 80; col++){
-      if(swap == 4){
-	drawPixel(row, col, COLOR_BLACK);
-	swap = 0;
-      }
-      drawPixel(row, col, COLOR_WHITE);
+  for(int row = 30; row < 120; row++){
+    if (swap){
+      row += 2;
+      fillRectangle(30, row, 80, 20, COLOR_BLACK);
+      swap ^= 1;
+    }else{
+      row += 2;
+      fillRectangle(30, row, 80, 20, COLOR_WHITE);
+      swap ^= 1;
     }
-    swap++;
   }
 }
   

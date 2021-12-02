@@ -62,7 +62,7 @@ void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height, 
 
 void drawFistBump(u_char cc, u_char cr);
 void drawTriforce(u_char cc, u_char cr);
-void drawPiano(u_char cc, u_char cr);
+void drawPiano();
 #endif // included
 
 
