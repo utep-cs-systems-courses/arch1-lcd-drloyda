@@ -1,7 +1,3 @@
-#include <msp430.h>
-#include<libTimer.h>
-#include "buzzer.h"
-
 extern int secCount;
 extern int playSong;
 void wdt_c_handler(){
@@ -17,6 +13,6 @@ void wdt_c_handler(){
     playSongThree();
     break;
   default:
-    buzzer_set_period(0);
+    playSong = 0;
   }
 }

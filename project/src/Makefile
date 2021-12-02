@@ -20,12 +20,12 @@ AS              = msp430-elf-as
 
 
 
-all: wdt.elf buzzer.elf led.elf wakedemo.elf
+all: wdt.elf wdt2.elf buzzer.elf led.elf main.elf
 
 
 
 #additional rules for files
-wakedemo.elf: ${COMMON_OBJECTS} wdt-c.o buzzer.o led.o wakedemo.o ../../wakedemo/wdt_handler.o
+main.elf: ${COMMON_OBJECTS} wdt-c.o buzzer.o led.o main.o ../../wakedemo/wdt_handler.o
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
 
 #buzzer.elf: buzzer.o ../lib/libTimer.a
@@ -35,12 +35,12 @@ led.elf: led.o greenBeat-c.o ../lib/libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 wdt.elf: wdt-c.o 
+wdt2.elf: wdt-s.o
 
-
-load: wakedemo.elf wdt.elf
+load: main.elf wdt.elf
 	msp430loader.sh  $^
 
-load2: wakedemo.elf 
+load2: main.elf wdt2.elf
 	msp430loader.sh  $^
 
 clean: $^
@@ -50,6 +50,7 @@ clean: $^
 led.o: led.h
 
 wdt-c.o: buzzer.h
+wdt-s.0 : buzzer.h
 
 buzzer.o : buzzer.h
 
